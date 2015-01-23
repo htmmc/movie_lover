@@ -20,8 +20,8 @@ end
 get '/posters' do
 	p "THIS IS PASSING! ", session[:moviename]
 	search = Imdb::Search.new(session[:moviename])
- 	nine_movies = search.movies.take(9)
- 	@poster_url = nine_movies.each {|film| puts film.poster }
+ 	movies_arr = search.movies.take(9)
+ 	@posters = movies_arr.each {|film| puts film.poster }
 	 erb :posters
 end
  
