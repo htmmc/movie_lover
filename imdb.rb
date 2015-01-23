@@ -20,8 +20,23 @@ end
 get '/posters' do
 	p "THIS IS PASSING! ", session[:moviename]
 	search = Imdb::Search.new(session[:moviename])
- 	movies_arr = search.movies.take(9)
- 	@posters = movies_arr.each {|film| puts film.poster }
-	 erb :posters
+ 	@movie_arr = []
+ 	search.movies.each do |film| 
+ 		if @movie_arr.length < 9 && film.poster != nil
+ 			puts @movie_arr.length
+ 			#@poster_arr << film.poster
+ 			@movie_arr << {:poster => film.poster, :year => film.year}
+ 		end 
+ 	end
+
+ 	if @movie_arr.length < 9
+ 		redirect to ('/sorry')
+ 	end 
+
+
+	erb :posters
 end
- 
+
+get '/sorry' do
+	erb :sorry
+end
