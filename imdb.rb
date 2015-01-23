@@ -1,26 +1,27 @@
+
 require 'imdb'
 require 'awesome_print'
 require 'sinatra'
 require 'pry'
+require 'sinatra/reloader' if development?
+
+enable :sessions
 
 get '/' do
 	erb :movies
 end
 
 post '/movies' do
-	movie[:movie_name] = params[:movie_name]
+	session[:moviename] = params[:moviename]
+	puts 'MOVIEEEEEE NAMEEEEEEE is ' + session[:moviename]
 	redirect to('/posters')
 end 
 
 get '/posters' do
-	erb :posters
-end 
-
-
-#search = Imdb::Search.new(#movie[:movie_name])
-#movie returns as an array
-#ap search.movies[0].poster
-#ap search.movies.size
-#posters = method to call poster 
-
-
+	p "THIS IS PASSING! ", session[:moviename]
+	search = Imdb::Search.new(session[:moviename])
+ 	nine_movies = search.movies.take(9)
+ 	@poster_url = nine_movies.each {|film| puts film.poster }
+	 erb :posters
+end
+ 
