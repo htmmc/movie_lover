@@ -28,12 +28,9 @@ get '/posters' do
  			@movie_arr << {:poster => film.poster, :year => film.year}
  		end 
  	end
-
  	if @movie_arr.length < 9
  		redirect to ('/sorry')
  	end 
-
-
 	erb :posters
 end
 
